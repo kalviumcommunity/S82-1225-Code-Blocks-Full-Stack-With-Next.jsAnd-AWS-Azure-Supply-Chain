@@ -115,3 +115,17 @@ The database schema is designed using relational principles to support the Habit
 - Schema supports efficient streak calculations
 
 Refer to `docs/db/schema.sql` and the ER diagram for details.
+
+## Unit 2.14 – Prisma ORM Setup
+
+Prisma ORM is integrated to manage database access and schema definitions.
+
+### Setup
+- Prisma initialized with PostgreSQL datasource
+- Schema models match the designed database structure
+- Prisma Client generated for type-safe queries
+
+### Client Initialization
+A centralized Prisma client is configured to ensure safe reuse across the application and prevent connection leaks in development.
+
+This setup prepares the project for database migrations and queries in upcoming units.
