@@ -129,3 +129,17 @@ Prisma ORM is integrated to manage database access and schema definitions.
 A centralized Prisma client is configured to ensure safe reuse across the application and prevent connection leaks in development.
 
 This setup prepares the project for database migrations and queries in upcoming units.
+
+## Unit 2.15 – Database Migrations & Seed Scripts
+
+Database migrations and seed scripts are implemented using Prisma.
+
+### Migrations
+- Prisma migrations are used to apply schema changes
+- Migrations ensure reproducible database setup
+
+### Seeding
+- Seed script populates sample users and habits
+- Useful for local development and testing
+
+This setup ensures consistent database state across environments.
