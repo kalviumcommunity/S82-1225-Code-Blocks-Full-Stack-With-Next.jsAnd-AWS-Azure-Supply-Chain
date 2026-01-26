@@ -85,3 +85,33 @@ This project follows a PR-based Git workflow to ensure code quality and safe col
 - CI checks run before merge
 
 This workflow supports scalability and reduces risk as the project grows.
+
+## Unit 2.12 – Docker Compose Setup for Local Development
+
+The project uses Docker Compose to manage local development environments.
+
+### Setup
+- Application runs inside a Docker container
+- Environment variables are loaded using env files
+- All services share a common Docker network
+
+### Running Locally with Docker
+```bash
+docker compose up --build
+
+## Unit 2.13 – PostgreSQL Schema Design
+
+The database schema is designed using relational principles to support the Habit Tracker application.
+
+### Core Tables
+- users: stores authentication and user data
+- habits: stores habits created by users
+- habit_completions: tracks daily habit completion
+
+### Design Considerations
+- Normalized schema to avoid data duplication
+- Foreign key constraints ensure referential integrity
+- Unique constraints prevent duplicate daily completions
+- Schema supports efficient streak calculations
+
+Refer to `docs/db/schema.sql` and the ER diagram for details.
