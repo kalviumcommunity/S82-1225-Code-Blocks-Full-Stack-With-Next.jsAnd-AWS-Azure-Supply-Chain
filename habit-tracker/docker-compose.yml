@@ -1,6 +1,18 @@
 version: "3.9"
 
 services:
+  db:
+    image: postgres:15
+    container_name: habit-tracker-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: habit_tracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   web:
     container_name: habit-tracker-web
     build: .
@@ -8,7 +20,10 @@ services:
       - "3000:3000"
     env_file:
       - .env.local
-    volumes:
-      - .:/app
-      - /app/node_modules
+    depends_on:
+      - db
     command: npm run dev
+
+volumes:
+  pgdata:
+
