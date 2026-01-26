@@ -8,6 +8,7 @@ export default function HomePage() {
       <h1>{appName}</h1>
       <p>Environment: Local Development</p>
       <p>API Base URL: {apiBaseUrl}</p>
+      <p>Team Workflow enabled</p>
     </main>
   );
 }
