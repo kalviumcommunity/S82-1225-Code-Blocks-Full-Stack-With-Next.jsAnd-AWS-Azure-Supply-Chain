@@ -194,3 +194,14 @@ Request validation is implemented using Zod to ensure API safety.
 - Clean error messages with proper status codes
 
 This ensures robust and predictable backend APIs.
+
+## Unit 2.21 – Authentication Basics
+
+Authentication foundations are implemented using JWT.
+
+### Features
+- Password hashing with bcrypt
+- JWT token generation and verification
+- Login endpoint issuing access tokens
+
+This establishes the foundation for secure authentication and protected routes.
