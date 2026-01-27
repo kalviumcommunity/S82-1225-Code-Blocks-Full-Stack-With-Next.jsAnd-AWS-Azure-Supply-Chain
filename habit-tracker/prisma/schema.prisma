@@ -6,27 +6,40 @@ datasource db {
   provider = "postgresql"
 }
 
+/* =======================
+   USER
+======================= */
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   habits    Habit[]
 }
 
+/* =======================
+   HABIT
+======================= */
 model Habit {
   id          String   @id @default(uuid())
   name        String
   description String?
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   completions HabitCompletion[]
+
+  @@index([userId])
 }
 
+/* =======================
+   HABIT COMPLETION
+======================= */
 model HabitCompletion {
   id          String   @id @default(uuid())
   completedOn DateTime
@@ -35,4 +48,5 @@ model HabitCompletion {
   habit       Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
 
   @@unique([habitId, completedOn])
+  @@index([completedOn])
 }
