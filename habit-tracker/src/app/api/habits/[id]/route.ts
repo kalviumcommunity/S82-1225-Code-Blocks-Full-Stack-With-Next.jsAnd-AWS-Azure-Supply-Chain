@@ -1,14 +1,23 @@
-import { successResponse, errorResponse } from "@/lib/api-response";
+import { successResponse, handleApiError } from "@/lib/api-response";
+import { NotFoundError } from "@/lib/api-error";
 
 export async function GET(
   _req: Request,
   { params }: { params: { id: string } }
 ) {
-  if (!params.id) {
-    return errorResponse("Habit ID is required", 400);
-  }
+  try {
+    if (!params.id) {
+      throw new NotFoundError("Habit ID not provided");
+    }
 
-  return successResponse({
-    habitId: params.id,
-  });
+    const habit = null;
+
+    if (!habit) {
+      throw new NotFoundError("Habit not found");
+    }
+
+    return successResponse({ habit });
+  } catch (error) {
+    return handleApiError(error);
+  }
 }

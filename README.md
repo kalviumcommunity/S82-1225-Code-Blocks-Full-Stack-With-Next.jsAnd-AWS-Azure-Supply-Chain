@@ -96,7 +96,7 @@ The project uses Docker Compose to manage local development environments.
 - All services share a common Docker network
 
 ### Running Locally with Docker
-```bash
+
 docker compose up --build
 
 ## Unit 2.13 – PostgreSQL Schema Design
@@ -172,3 +172,14 @@ A centralized API response utility is implemented to standardize all backend res
 - Improved frontend integration and debugging
 
 All API routes now return predictable JSON responses.
+
+## Unit 2.19 – API Error Handling & Custom Errors
+
+Custom API error classes are implemented to standardize backend error handling.
+
+### Features
+- Custom error classes with HTTP status codes
+- Centralized error handler
+- Clean and predictable API error responses
+
+This improves debugging, maintainability, and frontend integration.

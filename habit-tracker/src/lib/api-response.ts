@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { ApiError } from "./api-error";
 
 type ApiResponse<T> = {
   success: boolean;
@@ -8,24 +9,26 @@ type ApiResponse<T> = {
 
 export function successResponse<T>(
   data: T,
-  status: number = 200
+  status = 200
 ) {
-  const response: ApiResponse<T> = {
-    success: true,
-    data,
-  };
-
-  return NextResponse.json(response, { status });
+  return NextResponse.json(
+    { success: true, data },
+    { status }
+  );
 }
 
-export function errorResponse(
-  error: string,
-  status: number = 500
-) {
-  const response: ApiResponse<null> = {
-    success: false,
-    error,
-  };
+export function handleApiError(error: unknown) {
+  if (error instanceof ApiError) {
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: error.statusCode }
+    );
+  }
 
-  return NextResponse.json(response, { status });
+  console.error("Unhandled API error:", error);
+
+  return NextResponse.json(
+    { success: false, error: "Internal Server Error" },
+    { status: 500 }
+  );
 }
