@@ -143,3 +143,32 @@ Database migrations and seed scripts are implemented using Prisma.
 - Useful for local development and testing
 
 This setup ensures consistent database state across environments.
+
+## Unit 2.17 – API Route Structure & Naming
+
+API routes are implemented using the Next.js App Router.
+
+### Features
+- RESTful, resource-based API design
+- File-based routing
+- Dynamic routes for resource identifiers
+
+### Endpoints
+- GET /api/health
+- GET /api/users
+- POST /api/users
+- GET /api/habits
+- POST /api/habits
+- GET /api/habits/:id
+- DELETE /api/habits/:id
+
+## Unit 2.18 – Global API Response Handler
+
+A centralized API response utility is implemented to standardize all backend responses.
+
+### Features
+- Consistent success and error response structure
+- Centralized response handling
+- Improved frontend integration and debugging
+
+All API routes now return predictable JSON responses.

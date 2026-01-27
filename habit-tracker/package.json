@@ -13,12 +13,11 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.3.0",
-    "@prisma/client": "^7.3.0",
-    "next": "16.1.4",
+    "@prisma/client": "6.19.2",
+    "next": "^14.2.5",
     "pg": "^8.17.2",
-    "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -28,7 +27,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
-    "prisma": "^7.3.0",
+    "prisma": "6.19.2",
+    "rimraf": "^6.1.2",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
