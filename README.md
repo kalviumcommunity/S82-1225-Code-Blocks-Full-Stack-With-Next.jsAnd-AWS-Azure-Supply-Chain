@@ -183,3 +183,14 @@ Custom API error classes are implemented to standardize backend error handling.
 - Clean and predictable API error responses
 
 This improves debugging, maintainability, and frontend integration.
+
+## Unit 2.20 – Request Validation with Zod
+
+Request validation is implemented using Zod to ensure API safety.
+
+### Features
+- Schema-based request validation
+- Early rejection of invalid input
+- Clean error messages with proper status codes
+
+This ensures robust and predictable backend APIs.
