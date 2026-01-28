@@ -13,14 +13,14 @@ export class BadRequestError extends ApiError {
   }
 }
 
-export class NotFoundError extends ApiError {
-  constructor(message = "Resource Not Found") {
-    super(message, 404);
-  }
-}
-
 export class UnauthorizedError extends ApiError {
   constructor(message = "Unauthorized") {
     super(message, 401);
+  }
+}
+
+export class NotFoundError extends ApiError {
+  constructor(message = "Resource Not Found") {
+    super(message, 404);
   }
 }

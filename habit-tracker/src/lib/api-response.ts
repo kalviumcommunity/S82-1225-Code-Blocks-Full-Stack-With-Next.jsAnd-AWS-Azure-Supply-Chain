@@ -12,7 +12,7 @@ export function successResponse<T>(
   status = 200
 ) {
   return NextResponse.json(
-    { success: true, data },
+    { success: true, data } as ApiResponse<T>,
     { status }
   );
 }
