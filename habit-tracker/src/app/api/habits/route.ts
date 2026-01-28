@@ -3,7 +3,7 @@ import { requireAuth } from "@/lib/auth/middleware";
 
 export async function GET(req: Request) {
   try {
-    const user = requireAuth(req);
+    const user = await requireAuth(req);
 
     return successResponse({
       message: "Protected habits list",

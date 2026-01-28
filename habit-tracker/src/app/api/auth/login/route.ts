@@ -24,18 +24,16 @@ export async function POST(req: Request) {
       throw new UnauthorizedError("Invalid credentials");
     }
 
-    const isPasswordValid = await comparePassword(
-      password,
-      user.password
-    );
+    const isValid = await comparePassword(password, user.password);
 
-    if (!isPasswordValid) {
+    if (!isValid) {
       throw new UnauthorizedError("Invalid credentials");
     }
 
     const token = signToken({
       userId: user.id,
       email: user.email,
+      role: user.role,
     });
 
     return successResponse({ token });

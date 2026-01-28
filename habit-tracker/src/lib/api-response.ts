@@ -7,10 +7,7 @@ type ApiResponse<T> = {
   error?: string;
 };
 
-export function successResponse<T>(
-  data: T,
-  status = 200
-) {
+export function successResponse<T>(data: T, status = 200) {
   return NextResponse.json(
     { success: true, data } as ApiResponse<T>,
     { status }
