@@ -1,6 +1,7 @@
 import { verifyToken } from "@/lib/auth/jwt";
-import { UnauthorizedError } from "@/lib/api-error";
+import { UnauthorizedError, BadRequestError } from "@/lib/api-error";
 import { prisma } from "@/lib/prisma";
+import type { Role } from "@/lib/auth/types";
 
 export async function requireAuth(request: Request) {
   const authHeader = request.headers.get("authorization");
@@ -22,6 +23,7 @@ export async function requireAuth(request: Request) {
     select: {
       id: true,
       email: true,
+      role: true,
       createdAt: true,
     },
   });
@@ -31,4 +33,10 @@ export async function requireAuth(request: Request) {
   }
 
   return user;
+}
+
+export function requireRole(userRole: Role, allowedRoles: Role[]) {
+  if (!allowedRoles.includes(userRole)) {
+    throw new BadRequestError("Insufficient permissions");
+  }
 }
