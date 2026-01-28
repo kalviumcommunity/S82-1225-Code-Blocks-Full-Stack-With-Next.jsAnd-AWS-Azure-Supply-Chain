@@ -205,3 +205,14 @@ Authentication foundations are implemented using JWT.
 - Login endpoint issuing access tokens
 
 This establishes the foundation for secure authentication and protected routes.
+
+## Unit 2.22 – Protected Routes & Auth Middleware
+
+Authentication middleware is implemented to protect API routes.
+
+### Features
+- JWT-based route protection
+- Centralized auth verification
+- Clear separation of public and protected endpoints
+
+Protected routes now require valid authorization tokens.
