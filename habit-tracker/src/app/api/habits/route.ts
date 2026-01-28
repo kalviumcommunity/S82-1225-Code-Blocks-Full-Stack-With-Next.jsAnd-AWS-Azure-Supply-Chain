@@ -1,25 +1,14 @@
 import { successResponse, handleApiError } from "@/lib/api-response";
-import { BadRequestError } from "@/lib/api-error";
-import { createHabitSchema } from "@/lib/validators/habit";
+import { requireAuth } from "@/lib/auth/middleware";
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   try {
-    const body = await req.json();
+    const user = requireAuth(req);
 
-    const parsed = createHabitSchema.safeParse(body);
-
-    if (!parsed.success) {
-      throw new BadRequestError(
-        parsed.error.issues[0].message
-      );
-    }
-
-    const habit = {
-      id: "temp-id",
-      ...parsed.data,
-    };
-
-    return successResponse(habit, 201);
+    return successResponse({
+      message: "Protected habits list",
+      user,
+    });
   } catch (error) {
     return handleApiError(error);
   }
