@@ -216,3 +216,15 @@ Authentication middleware is implemented to protect API routes.
 - Clear separation of public and protected endpoints
 
 Protected routes now require valid authorization tokens.
+
+## Unit 2.23 – User Registration (Signup)
+
+User registration functionality is implemented with proper validation and security.
+
+### Features
+- Signup API with email & password
+- Zod-based request validation
+- Password hashing with bcrypt
+- Duplicate user prevention
+
+This enables secure user onboarding.
