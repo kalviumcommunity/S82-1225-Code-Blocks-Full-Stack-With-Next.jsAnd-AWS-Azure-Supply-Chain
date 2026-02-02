@@ -296,3 +296,15 @@ Feedback layers improve clarity and trust by:
 - reducing uncertainty during async work
 - clearly communicating system state
 
+
+## Unit 2.32 – Responsive & Theme‑Aware UI 
+
+- Built a responsive homepage using semantic HTML and inline styles
+- Ensured mobile‑first layout with max‑width and flexible spacing
+- Prepared structure for future light/dark theming using CSS variables
+- Verified layout across mobile, tablet, and desktop viewports
+
+### Reflection
+Even without Tailwind, responsive and accessible UIs can be achieved
+using semantic HTML, spacing discipline, and scalable layout patterns.
+
