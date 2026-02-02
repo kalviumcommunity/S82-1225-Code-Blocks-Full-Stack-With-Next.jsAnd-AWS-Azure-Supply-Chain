@@ -247,3 +247,27 @@ SWR is a React hook library by Vercel that improves UX and performance by:
 
 ```bash
 npm install swr
+```
+
+
+## Unit 2.30 – Forms with React Hook Form & Zod
+
+### Tools Used
+- React Hook Form for form state management
+- Zod for schema-based validation
+- @hookform/resolvers for integration
+
+### Features
+- Schema-driven validation
+- Reusable FormInput component
+- Accessible labels and error messages
+- Type-safe form data
+
+### Validation Rules
+- Email must be a valid email address
+- Role must be USER or ADMIN
+
+### Reflection
+React Hook Form minimized re-renders and simplified form state,
+while Zod ensured predictable and reusable validation logic.
+This combination improves maintainability and accessibility.
