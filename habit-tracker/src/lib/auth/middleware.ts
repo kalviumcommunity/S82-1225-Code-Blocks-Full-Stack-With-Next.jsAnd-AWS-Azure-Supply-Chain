@@ -1,8 +1,20 @@
 import { verifyToken } from "@/lib/auth/jwt";
-import { UnauthorizedError } from "@/lib/api-error";
+import { UnauthorizedError, ForbiddenError } from "@/lib/api-error";
 import { prisma } from "@/lib/prisma";
 
-export async function requireAuth(request: Request) {
+/* =========================
+   Types
+========================= */
+export type AuthUser = {
+  id: string;
+  email: string;
+  role: "USER" | "ADMIN";
+};
+
+/* =========================
+   Require Authentication
+========================= */
+export async function requireAuth(request: Request): Promise<AuthUser> {
   const authHeader = request.headers.get("authorization");
 
   if (!authHeader) {
@@ -23,7 +35,6 @@ export async function requireAuth(request: Request) {
       id: true,
       email: true,
       role: true,
-      createdAt: true,
     },
   });
 
@@ -32,4 +43,16 @@ export async function requireAuth(request: Request) {
   }
 
   return user;
+}
+
+/* =========================
+   Require Role
+========================= */
+export function requireRole(
+  role: AuthUser["role"],
+  allowedRoles: AuthUser["role"][]
+) {
+  if (!allowedRoles.includes(role)) {
+    throw new ForbiddenError("You do not have permission to access this resource");
+  }
 }
