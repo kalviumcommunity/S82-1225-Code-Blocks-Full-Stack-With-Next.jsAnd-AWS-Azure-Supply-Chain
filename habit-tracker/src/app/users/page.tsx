@@ -13,12 +13,13 @@ import { saveUser } from "@/lib/fakeApi";
 
 /* ---------- SCHEMA ---------- */
 const userSchema = z.object({
-  email: z.string().email("Invalid email"),
+  email: z.string().email("Invalid email address"),
   role: z.enum(["USER", "ADMIN"]),
 });
 
 type UserFormData = z.infer<typeof userSchema>;
 
+/* ---------- PAGE ---------- */
 export default function UsersPage() {
   const [showModal, setShowModal] = useState(false);
   const [pendingData, setPendingData] = useState<UserFormData | null>(null);
@@ -32,6 +33,7 @@ export default function UsersPage() {
     resolver: zodResolver(userSchema),
   });
 
+  /* ---------- HANDLERS ---------- */
   const onSubmit = (data: UserFormData) => {
     setPendingData(data);
     setShowModal(true);
@@ -43,18 +45,19 @@ export default function UsersPage() {
     setShowModal(false);
     setLoading(true);
 
-    toast.loading("Saving user...");
+    const toastId = toast.loading("Saving user...");
 
     try {
       await saveUser(pendingData);
-      toast.success("User saved successfully!");
-    } catch {
-      toast.error("Failed to save user");
+      toast.success("User saved successfully!", { id: toastId });
+    } catch (error) {
+      toast.error("Failed to save user", { id: toastId });
     } finally {
       setLoading(false);
     }
   };
 
+  /* ---------- UI ---------- */
   return (
     <main className="p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-6">
@@ -73,17 +76,29 @@ export default function UsersPage() {
           error={errors.email?.message}
         />
 
-        <div>
+        <div className="flex flex-col gap-1">
           <label className="font-medium">Role</label>
-          <select {...register("role")} className="border p-2 rounded w-full">
+          <select
+            {...register("role")}
+            className="border p-2 rounded w-full"
+          >
             <option value="USER">USER</option>
             <option value="ADMIN">ADMIN</option>
           </select>
+          {errors.role && (
+            <p className="text-sm text-red-500">
+              {errors.role.message}
+            </p>
+          )}
         </div>
 
         {loading && <Loader />}
 
-        <button className="bg-blue-600 text-white py-2 rounded">
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-blue-600 text-white py-2 rounded disabled:opacity-50"
+        >
           Submit
         </button>
       </form>

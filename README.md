@@ -308,3 +308,22 @@ Feedback layers improve clarity and trust by:
 Even without Tailwind, responsive and accessible UIs can be achieved
 using semantic HTML, spacing discipline, and scalable layout patterns.
 
+
+## Unit 2.33 – Loading & Error States
+
+### Why this matters
+Handling loading and error states improves user trust and prevents blank screens or crashes during async operations.
+
+### Implementation
+- Used Next.js App Router `loading.tsx` for skeleton UI
+- Used `error.tsx` for route-level error boundaries
+- Implemented retry using `reset()`
+
+### States demonstrated
+- Loading skeleton during slow network
+- Error fallback UI with retry button
+- Successful render after retry
+
+### Reflection
+Skeleton loaders give users visual context while waiting.
+Error boundaries prevent crashes and improve resilience.
