@@ -4,10 +4,13 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(req: Request) {
   try {
+    // 1. Ensure user is authenticated
     const user = await requireAuth(req);
 
+    // 2. Ensure user has ADMIN role
     requireRole(user.role, ["ADMIN"]);
 
+    // 3. Fetch users
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -17,6 +20,7 @@ export async function GET(req: Request) {
       },
     });
 
+    // 4. Return success response
     return successResponse(users);
   } catch (error) {
     return handleApiError(error);
