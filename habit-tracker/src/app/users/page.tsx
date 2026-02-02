@@ -1,34 +1,84 @@
 "use client";
 
-import useSWR from "swr";
-import { fetcher } from "@/lib/fetcher";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormInput from "@/components/FormInput";
+
+/* ---------------- SCHEMA ---------------- */
+
+const userSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  role: z.enum(["USER", "ADMIN"]),
+});
+
+type UserFormData = z.infer<typeof userSchema>;
+
+/* ---------------- PAGE ---------------- */
 
 export default function UsersPage() {
-  const { data, error, isLoading } = useSWR("/api/users", fetcher);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<UserFormData>({
+    resolver: zodResolver(userSchema),
+  });
 
-  if (isLoading) {
-    return <p className="p-6">Loading users...</p>;
-  }
-
-  if (error) {
-    return <p className="p-6 text-red-600">Failed to load users</p>;
-  }
+  const onSubmit = (data: UserFormData) => {
+    console.log("User Form Submitted:", data);
+    alert("User data submitted successfully!");
+  };
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Users</h1>
+    <main className="p-6 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-6">
+        Add User (Unit 2.30)
+      </h1>
 
-      <ul className="space-y-2">
-        {data.map((user: any) => (
-          <li
-            key={user.id}
-            className="p-2 border rounded flex justify-between"
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 bg-gray-50 p-6 border rounded-lg"
+      >
+        {/* EMAIL */}
+        <FormInput
+          label="Email"
+          name="email"
+          type="email"
+          register={register}
+          error={errors.email?.message}
+        />
+
+        {/* ROLE */}
+        <div className="flex flex-col gap-1">
+          <label className="font-medium">Role</label>
+
+          <select
+            {...register("role")}
+            className={`border p-2 rounded ${
+              errors.role ? "border-red-500" : "border-gray-300"
+            }`}
+            aria-invalid={!!errors.role}
           >
-            <span>{user.email}</span>
-            <span className="text-sm text-gray-500">{user.role}</span>
-          </li>
-        ))}
-      </ul>
+            <option value="USER">USER</option>
+            <option value="ADMIN">ADMIN</option>
+          </select>
+
+          {errors.role && (
+            <p className="text-red-500 text-sm">
+              {errors.role.message}
+            </p>
+          )}
+        </div>
+
+        {/* SUBMIT */}
+        <button
+          disabled={isSubmitting}
+          className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+        >
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
+      </form>
     </main>
   );
 }
