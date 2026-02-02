@@ -271,3 +271,28 @@ npm install swr
 React Hook Form minimized re-renders and simplified form state,
 while Zod ensured predictable and reusable validation logic.
 This combination improves maintainability and accessibility.
+
+## Unit 2.31 – Feedback Layers
+
+### Implemented Feedback
+- Toast notifications using `react-hot-toast`
+- Confirmation modal before saving data
+- Loader shown during async operations
+
+### User Flow
+1. User submits form
+2. Confirmation modal appears
+3. Loader shown during save
+4. Toast shows success or error
+
+### Accessibility
+- aria-live used for loaders and toasts
+- modal uses role="dialog" and aria-modal
+- keyboard-friendly controls
+
+### UX Reflection
+Feedback layers improve clarity and trust by:
+- preventing accidental actions
+- reducing uncertainty during async work
+- clearly communicating system state
+
