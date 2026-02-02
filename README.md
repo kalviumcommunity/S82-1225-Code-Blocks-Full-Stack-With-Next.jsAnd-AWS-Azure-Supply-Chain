@@ -228,3 +228,22 @@ User registration functionality is implemented with proper validation and securi
 - Duplicate user prevention
 
 This enables secure user onboarding.
+
+# Unit 2.29 – Client-Side Data Fetching with SWR
+
+This unit demonstrates efficient client-side data fetching in Next.js using **SWR (Stale-While-Revalidate)**.
+
+
+##  Why SWR?
+
+SWR is a React hook library by Vercel that improves UX and performance by:
+
+- Returning cached (stale) data instantly
+- Revalidating data in the background
+- Avoiding unnecessary network requests
+- Supporting optimistic UI updates
+
+## Installation
+
+```bash
+npm install swr
