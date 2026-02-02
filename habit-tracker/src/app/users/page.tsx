@@ -1,46 +1,70 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-hot-toast";
+
 import FormInput from "@/components/FormInput";
+import Loader from "@/components/Loader";
+import ConfirmModal from "@/components/ConfirmModal";
+import { saveUser } from "@/lib/fakeApi";
 
-/* ---------------- SCHEMA ---------------- */
-
+/* ---------- SCHEMA ---------- */
 const userSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z.string().email("Invalid email"),
   role: z.enum(["USER", "ADMIN"]),
 });
 
 type UserFormData = z.infer<typeof userSchema>;
 
-/* ---------------- PAGE ---------------- */
-
 export default function UsersPage() {
+  const [showModal, setShowModal] = useState(false);
+  const [pendingData, setPendingData] = useState<UserFormData | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
   });
 
   const onSubmit = (data: UserFormData) => {
-    console.log("User Form Submitted:", data);
-    alert("User data submitted successfully!");
+    setPendingData(data);
+    setShowModal(true);
+  };
+
+  const confirmSave = async () => {
+    if (!pendingData) return;
+
+    setShowModal(false);
+    setLoading(true);
+
+    toast.loading("Saving user...");
+
+    try {
+      await saveUser(pendingData);
+      toast.success("User saved successfully!");
+    } catch {
+      toast.error("Failed to save user");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <main className="p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-6">
-        Add User (Unit 2.30)
+        User Feedback Demo (Unit 2.31)
       </h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 bg-gray-50 p-6 border rounded-lg"
+        className="flex flex-col gap-4 border p-6 rounded bg-gray-50"
       >
-        {/* EMAIL */}
         <FormInput
           label="Email"
           name="email"
@@ -49,36 +73,28 @@ export default function UsersPage() {
           error={errors.email?.message}
         />
 
-        {/* ROLE */}
-        <div className="flex flex-col gap-1">
+        <div>
           <label className="font-medium">Role</label>
-
-          <select
-            {...register("role")}
-            className={`border p-2 rounded ${
-              errors.role ? "border-red-500" : "border-gray-300"
-            }`}
-            aria-invalid={!!errors.role}
-          >
+          <select {...register("role")} className="border p-2 rounded w-full">
             <option value="USER">USER</option>
             <option value="ADMIN">ADMIN</option>
           </select>
-
-          {errors.role && (
-            <p className="text-red-500 text-sm">
-              {errors.role.message}
-            </p>
-          )}
         </div>
 
-        {/* SUBMIT */}
-        <button
-          disabled={isSubmitting}
-          className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-        >
-          {isSubmitting ? "Submitting..." : "Submit"}
+        {loading && <Loader />}
+
+        <button className="bg-blue-600 text-white py-2 rounded">
+          Submit
         </button>
       </form>
+
+      <ConfirmModal
+        open={showModal}
+        title="Confirm Submission"
+        message="Are you sure you want to save this user?"
+        onConfirm={confirmSave}
+        onClose={() => setShowModal(false)}
+      />
     </main>
   );
 }
