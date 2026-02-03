@@ -471,3 +471,23 @@ In this unit, the application was containerized using Docker to ensure consisten
 ### Verification
 - App runs successfully via `docker run`
 - Production build served correctly
+
+## Unit 2.42 – Domain & SSL Configuration
+
+### Domain Setup
+- Configured custom domain using Route 53 (Public Hosted Zone)
+- DNS records point to application load balancer / CDN
+
+### SSL / HTTPS
+- SSL certificate issued via AWS Certificate Manager
+- HTTPS enforced with HTTP → HTTPS redirect
+- Certificate covers root and www subdomain
+
+### Security Benefits
+- Encrypted traffic (TLS)
+- Protection from MITM attacks
+- Browser trust & SEO benefits
+
+### Verification
+- HTTPS lock visible in browser
+- Valid certificate chain confirmed
