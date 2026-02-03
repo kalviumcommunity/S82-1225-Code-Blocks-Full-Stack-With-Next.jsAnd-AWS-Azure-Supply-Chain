@@ -23,6 +23,7 @@
     "react-dom": "18.3.1",
     "react-hook-form": "^7.71.1",
     "react-hot-toast": "^2.6.0",
+    "sanitize-html": "^2.17.0",
     "swr": "^2.4.0",
     "zod": "^4.3.6"
   },
@@ -33,6 +34,7 @@
     "@types/pg": "^8.16.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sanitize-html": "^2.16.0",
     "autoprefixer": "^10.4.24",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
