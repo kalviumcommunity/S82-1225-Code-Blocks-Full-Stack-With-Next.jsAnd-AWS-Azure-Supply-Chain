@@ -453,3 +453,21 @@ Environment variables contain sensitive credentials such as database URLs and JW
 This approach improves security, scalability, and production readiness by separating configuration from code.
 
 
+## Unit 2.41 – Dockerized Deployment
+
+### Overview
+In this unit, the application was containerized using Docker to ensure consistent builds and deployments across environments.
+
+### Key Steps
+- Created a multi-stage Dockerfile for optimized production builds
+- Exposed the app on port 3000
+- Verified local container execution
+
+### Benefits
+- Environment consistency
+- Faster deployments
+- Ready for ECS / Azure App Service
+
+### Verification
+- App runs successfully via `docker run`
+- Production build served correctly
