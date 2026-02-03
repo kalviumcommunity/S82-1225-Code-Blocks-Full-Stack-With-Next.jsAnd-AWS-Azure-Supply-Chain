@@ -376,3 +376,25 @@ Error boundaries prevent crashes and improve resilience.
 - All RBAC decisions are logged
 
 
+## Unit 2.36 – Input Sanitization & Security (OWASP)
+
+### Why This Matters
+User input is never trusted. Without sanitization, applications are vulnerable
+to XSS and SQL Injection attacks.
+
+### XSS Prevention
+- All user inputs are sanitized using `sanitize-html`
+- HTML tags and attributes are stripped before storing data
+- React’s default output escaping is relied upon for rendering
+
+### SQL Injection Prevention
+- Prisma ORM is used for all database operations
+- Parameterized queries prevent SQL injection by design
+- No raw SQL queries are constructed from user input
+
+### Before / After Example
+**Input:**
+```html
+<script>alert("XSS")</script>
+```
+
