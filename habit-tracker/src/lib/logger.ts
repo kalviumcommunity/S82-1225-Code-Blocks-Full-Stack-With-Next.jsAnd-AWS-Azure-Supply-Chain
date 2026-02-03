@@ -1,0 +1,23 @@
+export const logger = {
+  info: (message: string, meta?: unknown) => {
+    console.log(
+      JSON.stringify({
+        level: "info",
+        message,
+        meta,
+        timestamp: new Date().toISOString(),
+      })
+    );
+  },
+
+  error: (message: string, error?: unknown) => {
+    console.error(
+      JSON.stringify({
+        level: "error",
+        message,
+        error,
+        timestamp: new Date().toISOString(),
+      })
+    );
+  },
+};

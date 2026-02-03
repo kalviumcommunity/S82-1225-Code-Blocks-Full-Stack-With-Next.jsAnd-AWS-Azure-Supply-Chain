@@ -491,3 +491,27 @@ In this unit, the application was containerized using Docker to ensure consisten
 ### Verification
 - HTTPS lock visible in browser
 - Valid certificate chain confirmed
+
+## Unit 2.43 – Logging & Monitoring
+
+### Logging Strategy
+- Implemented structured JSON logging using a shared logger utility.
+- Each log includes level, timestamp, message, and optional metadata.
+- Used console-based logging for cloud compatibility.
+
+### Monitoring Platform
+- Logs are automatically captured by cloud provider:
+  - AWS CloudWatch (ECS / EC2)
+  - Azure Monitor (App Service)
+
+### What Is Logged
+- API request lifecycle events
+- Success responses with metadata
+- Error and exception details
+
+### Verification
+- INFO and ERROR logs visible in cloud log groups.
+- Test error route confirms error logging.
+
+### Reflection
+Structured logging improves debugging, incident response, and production observability by making logs searchable and consistent.
