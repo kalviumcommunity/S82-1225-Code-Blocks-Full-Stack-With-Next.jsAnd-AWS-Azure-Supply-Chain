@@ -354,3 +354,25 @@ Error boundaries prevent crashes and improve resilience.
 - XSS: Tokens not accessible to JS
 - CSRF: SameSite cookies
 - Replay Attacks: Token expiry + rotation
+
+##  Role-Based Access Control (Unit 2.35)
+
+### Roles & Permissions
+
+| Role   | Permissions                  |
+|-------|------------------------------|
+| ADMIN | create, read, update, delete |
+| EDITOR| read, update                 |
+| USER  | read                         |
+
+### Enforcement Strategy
+- Roles are embedded in JWT payloads
+- Permissions are evaluated in API middleware
+- UI components conditionally render based on role
+
+### Security Guarantees
+- Backend enforcement prevents privilege escalation
+- Unauthorized access returns HTTP 403
+- All RBAC decisions are logged
+
+
