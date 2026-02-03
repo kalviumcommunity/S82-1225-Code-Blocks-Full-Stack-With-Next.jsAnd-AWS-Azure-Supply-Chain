@@ -398,3 +398,34 @@ to XSS and SQL Injection attacks.
 <script>alert("XSS")</script>
 ```
 
+## 🔐 Unit 2.37 – Secure Communication & Security Headers
+
+This unit focuses on enforcing HTTPS and protecting the application using essential security headers.
+
+### Security Headers Implemented
+
+| Header | Purpose |
+|------|--------|
+| HSTS | Forces HTTPS to prevent MITM attacks |
+| CSP | Restricts scripts, styles, and assets to trusted sources |
+| X-Frame-Options | Prevents clickjacking |
+| X-Content-Type-Options | Prevents MIME sniffing |
+| Referrer-Policy | Limits referrer leakage |
+
+### Configuration Location
+- Global headers: `next.config.js`
+- API CORS protection: `app/api/users/route.ts`
+
+### CORS Strategy
+- Only trusted frontend origin allowed
+- No wildcard (`*`) used
+- Explicit methods and headers defined
+
+### Verification
+- Headers verified via Chrome DevTools → Network tab
+- Confirmed presence of HSTS, CSP, and CORS headers
+
+### Reflection
+Security headers act as a silent defense layer. They significantly reduce risks like XSS, MITM, and clickjacking without impacting user experience. Careful CSP configuration ensures security without breaking functionality.
+
+

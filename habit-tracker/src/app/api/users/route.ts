@@ -3,19 +3,28 @@ import { prisma } from "@/lib/prisma";
 import { sanitizeInput } from "@/lib/sanitize";
 import { userSchema } from "@/lib/validators/user";
 
+const ALLOWED_ORIGIN = "http://localhost:3000"; // change in prod
+
 export async function POST(req: Request) {
   try {
-    // 1️⃣ Parse request body
+    const origin = req.headers.get("origin");
+
+    if (origin !== ALLOWED_ORIGIN) {
+      return NextResponse.json(
+        { error: "CORS: Origin not allowed" },
+        { status: 403 }
+      );
+    }
+
     const body = await req.json();
 
-    // 2️⃣ Validate structure with Zod
+    // ✅ Validate structure
     const parsed = userSchema.parse(body);
 
-    // 3️⃣ Sanitize user-controlled fields
+    // ✅ Sanitize input
     const email = sanitizeInput(parsed.email);
     const role = parsed.role;
 
-    // 4️⃣ Create user safely
     const user = await prisma.user.create({
       data: {
         email,
@@ -23,15 +32,17 @@ export async function POST(req: Request) {
       },
     });
 
-    // 5️⃣ Return created user
-    return NextResponse.json(user, { status: 201 });
-  } catch (error: any) {
-    console.error("[USER_CREATE_ERROR]", error);
-
-    return NextResponse.json(
-      {
-        error: error?.message || "Invalid or unsafe input",
+    return NextResponse.json(user, {
+      status: 201,
+      headers: {
+        "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
       },
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error.message ?? "Invalid input" },
       { status: 400 }
     );
   }
