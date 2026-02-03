@@ -327,3 +327,30 @@ Handling loading and error states improves user trust and prevents blank screens
 ### Reflection
 Skeleton loaders give users visual context while waiting.
 Error boundaries prevent crashes and improve resilience.
+
+## Unit 2.34 – JWT Authentication & Refresh Tokens
+
+### JWT Structure
+- Header: Algorithm & token type
+- Payload: userId, role, expiry
+- Signature: Server-side verification
+
+### Token Strategy
+- Access Token: 15 minutes (Authorization header)
+- Refresh Token: 7 days (HTTP-only cookie)
+
+### Security Measures
+- No tokens stored in localStorage
+- Refresh token stored as HttpOnly + SameSite cookie
+- Short-lived access tokens prevent replay attacks
+
+### Refresh Flow
+1. Client sends request with access token
+2. If expired → 401
+3. Client calls `/api/auth/refresh`
+4. New access token issued automatically
+
+### Threat Mitigation
+- XSS: Tokens not accessible to JS
+- CSRF: SameSite cookies
+- Replay Attacks: Token expiry + rotation

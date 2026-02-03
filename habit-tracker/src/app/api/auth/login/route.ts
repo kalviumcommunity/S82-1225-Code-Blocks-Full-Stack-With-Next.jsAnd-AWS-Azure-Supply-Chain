@@ -1,43 +1,43 @@
-import { successResponse, handleApiError } from "@/lib/api-response";
-import { BadRequestError, UnauthorizedError } from "@/lib/api-error";
+import { NextResponse } from "next/server";
+import { signAccessToken, signRefreshToken } from "@/lib/auth/jwt";
+import { verifyPassword } from "@/lib/auth/password";
 import { loginSchema } from "@/lib/validators/auth";
-import { comparePassword } from "@/lib/auth/password";
-import { signToken } from "@/lib/auth/jwt";
-import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
-  try {
-    const body = await req.json();
-    const parsed = loginSchema.safeParse(body);
+  const body = await req.json();
+  const data = loginSchema.parse(body);
 
-    if (!parsed.success) {
-      throw new BadRequestError(parsed.error.issues[0].message);
-    }
+  // fake user (replace with Prisma later)
+  const user = {
+    id: "123",
+    email: data.email,
+    role: "USER",
+    password: "$2a$10$hashedpassword",
+  };
 
-    const { email, password } = parsed.data;
-
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (!user) {
-      throw new UnauthorizedError("Invalid credentials");
-    }
-
-    const isValid = await comparePassword(password, user.password);
-
-    if (!isValid) {
-      throw new UnauthorizedError("Invalid credentials");
-    }
-
-    const token = signToken({
-      userId: user.id,
-      email: user.email,
-      role: user.role,
-    });
-
-    return successResponse({ token });
-  } catch (error) {
-    return handleApiError(error);
+  const valid = await verifyPassword(data.password, user.password);
+  if (!valid) {
+    return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
   }
+
+  const accessToken = signAccessToken({
+    userId: user.id,
+    role: user.role,
+  });
+
+  const refreshToken = signRefreshToken({
+    userId: user.id,
+    role: user.role,
+  });
+
+  const res = NextResponse.json({ accessToken });
+
+  res.cookies.set("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    path: "/api/auth/refresh",
+  });
+
+  return res;
 }

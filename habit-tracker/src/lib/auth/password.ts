@@ -4,9 +4,9 @@ export async function hashPassword(password: string) {
   return bcrypt.hash(password, 10);
 }
 
-export async function comparePassword(
+export async function verifyPassword(
   password: string,
-  hashedPassword: string
+  hash: string
 ) {
-  return bcrypt.compare(password, hashedPassword);
+  return bcrypt.compare(password, hash);
 }

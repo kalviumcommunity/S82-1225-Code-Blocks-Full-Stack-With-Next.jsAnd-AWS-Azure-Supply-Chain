@@ -2,6 +2,10 @@ export const serverEnv = {
   databaseUrl: process.env.DATABASE_URL,
   jwtSecret: process.env.JWT_SECRET,
 };
+export const env = {
+  JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET!,
+  JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET!,
+};
 
 // Safety checks (very important)
 if (!serverEnv.databaseUrl) {
