@@ -22,12 +22,12 @@ export async function POST(req: Request) {
 
   const accessToken = signAccessToken({
     userId: user.id,
-    role: user.role,
+    role: user.role as "USER" | "ADMIN",
   });
 
   const refreshToken = signRefreshToken({
     userId: user.id,
-    role: user.role,
+    role: user.role as "USER" | "ADMIN",
   });
 
   const res = NextResponse.json({ accessToken });

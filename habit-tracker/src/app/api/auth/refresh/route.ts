@@ -1,25 +1,39 @@
 import { NextResponse } from "next/server";
-import { verifyToken, signAccessToken } from "@/lib/auth/jwt";
+import {
+  verifyRefreshToken,
+  signAccessToken,
+} from "@/lib/auth/jwt";
 
 export async function POST(req: Request) {
-  const refreshToken = req.headers
-    .get("cookie")
-    ?.split("refreshToken=")[1];
+  const cookieHeader = req.headers.get("cookie");
+
+  const refreshToken = cookieHeader
+    ?.split("; ")
+    .find((c) => c.startsWith("refreshToken="))
+    ?.split("=")[1];
 
   if (!refreshToken) {
-    return NextResponse.json({ error: "No refresh token" }, { status: 401 });
+    return NextResponse.json(
+      { error: "No refresh token" },
+      { status: 401 }
+    );
   }
 
   try {
-    const payload = verifyToken(refreshToken, "refresh");
+    const payload = verifyRefreshToken(refreshToken);
 
     const newAccessToken = signAccessToken({
       userId: payload.userId,
       role: payload.role,
     });
 
-    return NextResponse.json({ accessToken: newAccessToken });
+    return NextResponse.json({
+      accessToken: newAccessToken,
+    });
   } catch {
-    return NextResponse.json({ error: "Invalid refresh token" }, { status: 403 });
+    return NextResponse.json(
+      { error: "Invalid refresh token" },
+      { status: 403 }
+    );
   }
 }
