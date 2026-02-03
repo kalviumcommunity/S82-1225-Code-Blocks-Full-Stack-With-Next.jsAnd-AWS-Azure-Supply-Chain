@@ -453,3 +453,65 @@ Environment variables contain sensitive credentials such as database URLs and JW
 This approach improves security, scalability, and production readiness by separating configuration from code.
 
 
+## Unit 2.41 – Dockerized Deployment
+
+### Overview
+In this unit, the application was containerized using Docker to ensure consistent builds and deployments across environments.
+
+### Key Steps
+- Created a multi-stage Dockerfile for optimized production builds
+- Exposed the app on port 3000
+- Verified local container execution
+
+### Benefits
+- Environment consistency
+- Faster deployments
+- Ready for ECS / Azure App Service
+
+### Verification
+- App runs successfully via `docker run`
+- Production build served correctly
+
+## Unit 2.42 – Domain & SSL Configuration
+
+### Domain Setup
+- Configured custom domain using Route 53 (Public Hosted Zone)
+- DNS records point to application load balancer / CDN
+
+### SSL / HTTPS
+- SSL certificate issued via AWS Certificate Manager
+- HTTPS enforced with HTTP → HTTPS redirect
+- Certificate covers root and www subdomain
+
+### Security Benefits
+- Encrypted traffic (TLS)
+- Protection from MITM attacks
+- Browser trust & SEO benefits
+
+### Verification
+- HTTPS lock visible in browser
+- Valid certificate chain confirmed
+
+## Unit 2.43 – Logging & Monitoring
+
+### Logging Strategy
+- Implemented structured JSON logging using a shared logger utility.
+- Each log includes level, timestamp, message, and optional metadata.
+- Used console-based logging for cloud compatibility.
+
+### Monitoring Platform
+- Logs are automatically captured by cloud provider:
+  - AWS CloudWatch (ECS / EC2)
+  - Azure Monitor (App Service)
+
+### What Is Logged
+- API request lifecycle events
+- Success responses with metadata
+- Error and exception details
+
+### Verification
+- INFO and ERROR logs visible in cloud log groups.
+- Test error route confirms error logging.
+
+### Reflection
+Structured logging improves debugging, incident response, and production observability by making logs searchable and consistent.

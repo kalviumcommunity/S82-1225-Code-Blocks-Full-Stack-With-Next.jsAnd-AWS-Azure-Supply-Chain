@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sanitizeInput } from "@/lib/sanitize";
 import { userSchema } from "@/lib/validators/user";
+import { logger } from "@/lib/logger";
 
 const ALLOWED_ORIGIN = "http://localhost:3000"; // change in prod
 
@@ -44,6 +45,34 @@ export async function POST(req: Request) {
     return NextResponse.json(
       { error: error.message ?? "Invalid input" },
       { status: 400 }
+    );
+  }
+}
+
+
+export async function GET() {
+  try {
+    logger.info("GET /api/users - request received");
+
+    // Example data (replace with DB later)
+    const users = [
+      { id: "1", email: "admin@test.com", role: "ADMIN" },
+      { id: "2", email: "user@test.com", role: "USER" },
+    ];
+
+    logger.info("GET /api/users - success", {
+      userCount: users.length,
+    });
+
+    return NextResponse.json(users);
+  } catch (error) {
+    logger.error("GET /api/users - failed", {
+      error: String(error),
+    });
+
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
     );
   }
 }
