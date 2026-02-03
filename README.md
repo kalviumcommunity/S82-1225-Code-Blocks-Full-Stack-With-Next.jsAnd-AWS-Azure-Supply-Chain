@@ -429,3 +429,27 @@ This unit focuses on enforcing HTTPS and protecting the application using essent
 Security headers act as a silent defense layer. They significantly reduce risks like XSS, MITM, and clickjacking without impacting user experience. Careful CSP configuration ensures security without breaking functionality.
 
 
+## 🔐 Unit 2.40 – Secure Secret Management
+
+### Why Secret Management?
+Environment variables contain sensitive credentials such as database URLs and JWT secrets. Storing them directly in `.env` files can lead to leaks. Cloud secret managers provide encrypted, access-controlled storage.
+
+### Implementation
+- Used **AWS Secrets Manager** for secure secret storage.
+- Secrets are retrieved at **runtime** using AWS SDK.
+- Local development uses safe fallback values.
+- Secrets are never hardcoded or logged.
+
+### Security Measures
+- IAM-based access (read-only secrets)
+- Encrypted at rest and in transit
+- Supports secret rotation without redeploying the app
+
+### Verified By
+- Runtime API test (`/api/secrets-test`)
+- Console logs showing successful retrieval (keys only)
+
+### Reflection
+This approach improves security, scalability, and production readiness by separating configuration from code.
+
+
