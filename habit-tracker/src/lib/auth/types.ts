@@ -1,7 +1,5 @@
-export type Role = "USER" | "ADMIN";
-
-export type AuthUser = {
+export interface AuthUser {
   id: string;
   email: string;
-  role: Role;
-};
+  role: "USER" | "ADMIN";
+}

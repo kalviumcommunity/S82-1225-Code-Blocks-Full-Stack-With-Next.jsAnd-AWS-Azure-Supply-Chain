@@ -1,20 +1,31 @@
 import jwt from "jsonwebtoken";
-import type { Role } from "./types";
+import { env } from "@/lib/env";
 
-const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
-
-export type JwtPayload = {
+export interface JwtPayload {
   userId: string;
-  email: string;
-  role: Role;
-};
+  role: string;
+}
 
-export function signToken(payload: JwtPayload) {
-  return jwt.sign(payload, JWT_SECRET, {
+/* ---------- ACCESS TOKEN ---------- */
+export function signAccessToken(payload: JwtPayload) {
+  return jwt.sign(payload, env.JWT_ACCESS_SECRET, {
+    expiresIn: "15m",
+  });
+}
+
+/* ---------- REFRESH TOKEN ---------- */
+export function signRefreshToken(payload: JwtPayload) {
+  return jwt.sign(payload, env.JWT_REFRESH_SECRET, {
     expiresIn: "7d",
   });
 }
 
-export function verifyToken(token: string): JwtPayload {
-  return jwt.verify(token, JWT_SECRET) as JwtPayload;
+/* ---------- VERIFY TOKEN ---------- */
+export function verifyToken(token: string, type: "access" | "refresh") {
+  const secret =
+    type === "access"
+      ? env.JWT_ACCESS_SECRET
+      : env.JWT_REFRESH_SECRET;
+
+  return jwt.verify(token, secret) as JwtPayload;
 }
