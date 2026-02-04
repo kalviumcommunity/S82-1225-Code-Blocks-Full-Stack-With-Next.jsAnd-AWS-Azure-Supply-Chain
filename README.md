@@ -515,3 +515,27 @@ In this unit, the application was containerized using Docker to ensure consisten
 
 ### Reflection
 Structured logging improves debugging, incident response, and production observability by making logs searchable and consistent.
+
+## Unit 2.44 – Unit Testing Setup
+
+### Testing Stack
+- Jest for test runner
+- React Testing Library for component testing
+- jsdom for browser-like environment
+
+### Configuration
+- Jest configured with module alias support
+- Global setup includes jest-dom matchers
+- Coverage thresholds enforced
+
+### Example Test
+- Unit test added for a React component
+- Test validates rendered output using RTL queries
+
+### Commands
+- Run tests: `npm test`
+- Watch mode: `npm run test:watch`
+- Coverage: `npm run test:coverage`
+
+### Reflection
+Unit testing ensures components behave as expected, prevents regressions, and improves confidence during refactoring.
