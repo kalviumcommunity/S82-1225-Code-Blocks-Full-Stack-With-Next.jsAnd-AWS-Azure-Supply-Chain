@@ -576,3 +576,22 @@ This project uses **GitHub Actions** to enforce continuous integration.
 - Prevents broken code from merging
 - Ensures consistent code quality
 - Automates validation before deployment
+
+## Docker Build & Push Automation (Unit 2.47)
+
+This project uses **Docker** and **GitHub Actions** to automatically build and push container images to **AWS ECR**.
+
+### Workflow
+- Triggered on push to `main`
+- Builds production-ready Docker image
+- Pushes image to Amazon ECR
+
+### Technologies Used
+- Docker (multi-stage build)
+- GitHub Actions
+- AWS ECR
+
+### Benefits
+- Consistent production builds
+- Zero manual Docker commands
+- Ready for ECS / cloud deployment
