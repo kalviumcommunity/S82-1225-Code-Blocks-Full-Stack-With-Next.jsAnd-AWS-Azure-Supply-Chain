@@ -539,3 +539,22 @@ Structured logging improves debugging, incident response, and production observa
 
 ### Reflection
 Unit testing ensures components behave as expected, prevents regressions, and improves confidence during refactoring.
+
+## Integration Testing (Unit 2.45)
+
+This project uses **Supertest** with **Jest** to perform integration testing
+on Next.js API routes.
+
+### What is Tested
+- API request → route handler → response
+- Authentication failures
+- Validation errors
+
+### Tools Used
+- Jest (test runner)
+- Supertest (HTTP assertions)
+
+### Why Integration Tests
+Unit tests validate logic.
+Integration tests validate **real behavior** and catch routing,
+middleware, and validation bugs early.
