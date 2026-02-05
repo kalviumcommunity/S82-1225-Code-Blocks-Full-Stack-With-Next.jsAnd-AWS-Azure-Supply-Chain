@@ -557,4 +557,4 @@ on Next.js API routes.
 ### Why Integration Tests
 Unit tests validate logic.
 Integration tests validate **real behavior** and catch routing,
-middleware, and validation bugs early.
+
