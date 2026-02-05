@@ -1,7 +1,32 @@
 // lib/auth/middleware.ts
 import { NextRequest, NextResponse } from "next/server";
-import { verifyAccessToken } from "./jwt";
+import { verifyAccessToken, type JwtPayload } from "./jwt";
 import { hasPermission, Permission } from "./rbac";
+
+export async function requireAuth(req: Request): Promise<JwtPayload & { id: string }> {
+  const authHeader = req.headers.get("authorization");
+
+  if (!authHeader) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    const token = authHeader.replace("Bearer ", "");
+    const payload = verifyAccessToken(token);
+    return {
+      ...payload,
+      id: payload.userId,
+    };
+  } catch {
+    throw new Error("Invalid token");
+  }
+}
+
+export function requireRole(userRole: string, allowedRoles: string[]): void {
+  if (!allowedRoles.includes(userRole)) {
+    throw new Error("Forbidden");
+  }
+}
 
 export function withAuth(permission: Permission) {
   return (req: NextRequest) => {
