@@ -3,6 +3,7 @@ import { requireAuth } from "@/lib/auth/middleware";
 import { prisma } from "@/lib/prisma";
 import { createHabitSchema } from "@/lib/validators/habit";
 import { BadRequestError } from "@/lib/api-error";
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
@@ -41,3 +42,4 @@ export async function POST(req: Request) {
     return handleApiError(error);
   }
 }
+

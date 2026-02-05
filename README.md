@@ -619,3 +619,30 @@ If verification fails:
 - Protects user experience
 
 This approach follows DevOps best practices for production reliability.
+
+## 🏗 System Architecture
+
+Habit Tracker follows a modern full-stack architecture:
+
+Frontend:
+- Next.js App Router
+- React Components
+- Fetch API
+
+Backend:
+- Next.js API Routes
+- Prisma ORM
+- PostgreSQL
+
+Auth & Security:
+- JWT Authentication
+- Secure cookies
+- Input validation (Zod)
+
+Documentation:
+- Swagger (OpenAPI)
+- Postman collections
+
+Deployment:
+- Docker container
+- CI/CD via GitHub Actions
