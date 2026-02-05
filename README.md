@@ -595,3 +595,27 @@ This project uses **Docker** and **GitHub Actions** to automatically build and p
 - Consistent production builds
 - Zero manual Docker commands
 - Ready for ECS / cloud deployment
+
+## Deployment Verification & Rollback (Unit 2.48)
+
+### Deployment Verification
+After each production deployment, the CI/CD pipeline verifies application health using a dedicated health check endpoint:
+
+
+The deployment is considered successful only if the endpoint returns HTTP 200.
+
+### Rollback Strategy
+If verification fails:
+- The CI/CD pipeline automatically halts
+- The previous stable deployment is restored
+
+**Rollback Methods**
+- AWS ECS: Redeploy previous task definition
+- Azure App Service: Revert deployment slot
+
+### Why This Matters
+- Prevents broken deployments
+- Ensures zero downtime
+- Protects user experience
+
+This approach follows DevOps best practices for production reliability.

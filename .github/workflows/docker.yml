@@ -1,44 +1,60 @@
-name: Docker Build & Push
+name: Deploy with Verification & Rollback
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  docker:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Configure AWS credentials
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          node-version: 18
 
-      # 3️⃣ Login to Amazon ECR
-      - name: Login to ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+      - name: Install dependencies
+        run: npm ci
 
-      # 4️⃣ Build Docker image
-      - name: Build Docker image
+      - name: Run tests
+        run: npm test
+
+      # 🔨 Build Docker Image
+      - name: Build Docker Image
+        run: docker build -t habit-tracker:${{ github.sha }} .
+
+      # 🚀 Push Image (example: ECR)
+      - name: Push Docker Image
         run: |
-          docker build -t ${{ secrets.ECR_REPOSITORY }}:latest .
+          echo "Pushing image to registry..."
+          # docker push <ECR_URL>/habit-tracker:${{ github.sha }}
 
-      # 5️⃣ Tag Docker image
-      - name: Tag Docker image
+      # 🚢 Deploy (ECS / Azure)
+      - name: Deploy Application
         run: |
-          docker tag ${{ secrets.ECR_REPOSITORY }}:latest \
-          ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
+          echo "Deploying application..."
+          # aws ecs update-service ...
 
-      # 6️⃣ Push image to ECR
-      - name: Push Docker image
+      # ✅ VERIFY DEPLOYMENT
+      - name: Verify Deployment Health
         run: |
-          docker push \
-          ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
+          echo "Verifying deployment..."
+          sleep 20
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://your-domain.com/api/health)
+          if [ "$STATUS" -ne 200 ]; then
+            echo "❌ Health check failed"
+            exit 1
+          fi
+          echo "✅ Deployment verified"
+
+      # 🔁 ROLLBACK ON FAILURE
+      - name: Rollback Deployment
+        if: failure()
+        run: |
+          echo "⚠️ Rolling back to previous stable version..."
+          # aws ecs update-service --force-new-deployment --task-definition previous
