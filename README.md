@@ -558,3 +558,21 @@ on Next.js API routes.
 Unit tests validate logic.
 Integration tests validate **real behavior** and catch routing,
 
+## CI/CD – GitHub Actions (Unit 2.46)
+
+This project uses **GitHub Actions** to enforce continuous integration.
+
+### Pipeline Stages
+- Install dependencies using `npm ci`
+- Run ESLint checks
+- Run Jest unit tests
+- Build the Next.js application
+
+### Triggers
+- Push to `main` or `develop`
+- Pull requests targeting `main` or `develop`
+
+### Benefits
+- Prevents broken code from merging
+- Ensures consistent code quality
+- Automates validation before deployment
