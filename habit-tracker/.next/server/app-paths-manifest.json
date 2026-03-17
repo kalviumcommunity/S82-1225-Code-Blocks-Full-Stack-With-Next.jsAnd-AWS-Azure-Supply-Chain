@@ -1,3 +1,10 @@
 {
-  "/page": "app/page.js"
+  "/register/page": "app/register/page.js",
+  "/page": "app/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/login/page": "app/login/page.js",
+  "/api/habits/route": "app/api/habits/route.js",
+  "/habits/[id]/page": "app/habits/[id]/page.js",
+  "/api/habits/[id]/log/route": "app/api/habits/[id]/log/route.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js"
 }

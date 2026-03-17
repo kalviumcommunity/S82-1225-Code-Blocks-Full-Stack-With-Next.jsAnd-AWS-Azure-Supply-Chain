@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
+
+const isDev = process.env.NODE_ENV === "development";
+
 const nextConfig = {
   async headers() {
     return [
       {
         source: "/(.*)",
         headers: [
-          // 🔐 Enforce HTTPS
+          // 🔐 Enforce HTTPS (only meaningful in production)
           {
             key: "Strict-Transport-Security",
             value: "max-age=63072000; includeSubDomains; preload",
@@ -14,17 +17,25 @@ const nextConfig = {
           // 🔐 Content Security Policy
           {
             key: "Content-Security-Policy",
-            value:
-              "default-src 'self'; " +
-              "script-src 'self'; " +
-              "style-src 'self' 'unsafe-inline'; " +
-              "img-src 'self' data:; " +
-              "font-src 'self'; " +
-              "connect-src 'self'; " +
-              "frame-ancestors 'none';",
+            value: [
+              "default-src 'self'",
+              // Next.js HMR needs 'unsafe-eval' in dev; removed in production
+              isDev
+                ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'"
+                : "script-src 'self' 'unsafe-inline'",
+              // Allow Google Fonts stylesheets
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              // Allow Google Fonts font files
+              "font-src 'self' https://fonts.gstatic.com",
+              // Images
+              "img-src 'self' data: blob:",
+              // API calls
+              "connect-src 'self'",
+              "frame-ancestors 'none'",
+            ].join("; "),
           },
 
-          // 🔐 Extra hardening headers (good practice)
+          // 🔐 Extra hardening headers
           {
             key: "X-Frame-Options",
             value: "DENY",
@@ -43,4 +54,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
