@@ -3,10 +3,12 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const result = await prisma.$queryRaw`SELECT NOW()`;
+    // MongoDB: use a simple findFirst to verify connectivity
+    await prisma.user.findFirst();
     return NextResponse.json({
       status: "ok",
-      dbTime: result,
+      db: "MongoDB",
+      time: new Date().toISOString(),
     });
   } catch (error) {
     return NextResponse.json(

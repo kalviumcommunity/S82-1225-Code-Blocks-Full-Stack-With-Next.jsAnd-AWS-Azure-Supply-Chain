@@ -30,6 +30,7 @@ export async function POST(req: Request) {
       data: {
         email,
         role,
+        password: "", // placeholder – use /api/auth/register for real user creation
       },
     });
 
